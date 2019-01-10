@@ -10,9 +10,41 @@ Game::Game() : window(VideoMode(800, 600), "OpenGL Cube")
 
 Game::~Game() {}
 
-float vertices[] = { 1.0f, 1.0f, -5.0f, -1.0f, 1.0f, -5.0f, -1.0f, -1.0f, -5.0f };
-float colors[] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-unsigned int vertex_index[] = { 0, 1, 2 };
+float vertices[] = { 
+	1.0f, 1.0f, -5.0f, // 0
+	-1.0f, 1.0f, -5.0f, // 1
+  	-1.0f, -1.0f, -5.0f, // 2
+	1.0f, -1.0f, -5.0f, // 3
+	1.0f, 1.0f, -15.0f, // 4
+	-1.0f, 1.0f, -15.0f, // 5
+	-1.0f, -1.0f, -15.0f,// 6
+	1.0f, -1.0f, -15.0f // 7
+	 };
+
+float colors[] = { 
+5.0f,  0.0f,  0.0f,
+0.0f,  5.0f,  0.0f,
+0.0f,  0.0f,  5.0f,
+5.0f,  5.0f,  0.0f,
+0.0f,  5.0f,  5.0f,
+5.0f,  0.0f,  5.0f,
+0.0f, 0.0f, 0.0f,
+0.0f, 0.0f, 0.0f
+ };
+unsigned int vertex_index[] = {
+0, 1 , 2,
+2, 3, 0,
+1, 4, 5,
+1, 0, 4,
+0, 7, 4,
+3, 7 ,0,
+6, 7, 3,
+6, 3, 2,
+6, 2, 1,
+6, 1 ,5,
+6, 4, 5,
+6, 7, 4
+};
 
 void Game::run()
 {
@@ -42,7 +74,7 @@ void Game::initialize()
 {
 	isRunning = true;
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	/*glClearColor(0.0f, 0.0f, 0.0f, 0.0f);*/
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0, window.getSize().x / window.getSize().y, 1.0, 500.0);
@@ -52,6 +84,13 @@ void Game::initialize()
 void Game::update()
 {
 	elapsed = clock.getElapsedTime();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		for (int i = 0; i < 36; i++)
+		{
+				faces[i][x] = MyMatrix3::rotationZ(rotationAngle) * faces[i][x];
+		}
+	}
 
 	cout << "Update up" << endl;
 }
@@ -67,9 +106,9 @@ void Game::render()
 	glVertexPointer(3, GL_FLOAT, 0, &vertices);
 	glColorPointer(3, GL_FLOAT, 0, &colors);
 
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	/*glDrawArrays(GL_TRIANGLES, 0, );*/
 
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &vertex_index);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, &vertex_index);
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
