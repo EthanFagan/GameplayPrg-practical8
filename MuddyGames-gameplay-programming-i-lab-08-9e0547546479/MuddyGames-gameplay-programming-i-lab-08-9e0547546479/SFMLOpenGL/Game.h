@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace sf;
-using namespace gpp;
+//using namespace gpp;
 
 class Game
 {
@@ -24,6 +24,8 @@ private:
 	void update();
 	void render();
 	void unload();
+
+	void matrixApplicationFunction(MyMatrix3 t_matrix);
 
 	Clock clock;
 	Time elapsed;

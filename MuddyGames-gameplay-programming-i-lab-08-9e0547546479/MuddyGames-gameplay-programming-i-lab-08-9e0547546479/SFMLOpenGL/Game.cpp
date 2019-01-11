@@ -74,7 +74,7 @@ void Game::initialize()
 {
 	isRunning = true;
 
-	/*glClearColor(0.0f, 0.0f, 0.0f, 0.0f);*/
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0, window.getSize().x / window.getSize().y, 1.0, 500.0);
@@ -84,12 +84,21 @@ void Game::initialize()
 void Game::update()
 {
 	elapsed = clock.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		for (int i = 0; i < 36; i++)
-		{
-				faces[i][x] = MyMatrix3::rotationZ(rotationAngle) * faces[i][x];
-		}
+		matrixApplicationFunction(MyMatrix3::rotationY(0.001));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		matrixApplicationFunction(MyMatrix3::rotationY(-0.001));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		matrixApplicationFunction(MyMatrix3::rotationX(0.001));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		matrixApplicationFunction(MyMatrix3::rotationX(-0.001));
 	}
 
 	cout << "Update up" << endl;
@@ -97,6 +106,8 @@ void Game::update()
 
 void Game::render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	cout << "Drawing" << endl;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -120,5 +131,19 @@ void Game::render()
 void Game::unload()
 {
 	cout << "Cleaning up" << endl;
+}
+
+void Game::matrixApplicationFunction(MyMatrix3 t_matrix)
+{
+	for (int i = 0; i < 36; i += 3)
+	{
+		MyVector3 vector{vertices[i], vertices[i + 1], vertices[i + 2]};
+
+		vector = t_matrix * vector;
+		vertices[i] = vector.x;
+		vertices[i + 1] = vector.y;
+		vertices[i + 2] = vector.z;
+	}
+
 }
 
