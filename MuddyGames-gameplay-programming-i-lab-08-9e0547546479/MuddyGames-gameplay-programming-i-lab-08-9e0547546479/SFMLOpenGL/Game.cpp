@@ -100,7 +100,30 @@ void Game::update()
 	{
 		matrixApplicationFunction(MyMatrix3::rotationX(-0.001));
 	}
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		matrixApplicationFunction(MyMatrix3::translation(MyVector3{ 0, 0.005, 0 }));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		matrixApplicationFunction(MyMatrix3::translation(MyVector3{ 0,-0.005,0 }));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		matrixApplicationFunction(MyMatrix3::translation(MyVector3{ -0.005,0,0 }));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		matrixApplicationFunction(MyMatrix3::translation(MyVector3{ 0.005,0,0 }));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	{
+		matrixApplicationFunction(MyMatrix3::scale(double{0.99}));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		matrixApplicationFunction(MyMatrix3::scale(double{1.01}));
+	}
 	cout << "Update up" << endl;
 }
 
@@ -116,8 +139,6 @@ void Game::render()
 
 	glVertexPointer(3, GL_FLOAT, 0, &vertices);
 	glColorPointer(3, GL_FLOAT, 0, &colors);
-
-	/*glDrawArrays(GL_TRIANGLES, 0, );*/
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, &vertex_index);
 
